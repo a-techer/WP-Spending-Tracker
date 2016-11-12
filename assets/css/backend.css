@@ -1,0 +1,94 @@
+/**	Common css definition	*/
+.atst-block:after {
+	clear: both;
+	display: table;
+	content: "";
+}
+
+/**	Dashboard layout and styles	*/
+.atst-dashboard-icon {
+	margin: 2px 5px 0 0;
+	font-size: 30px;
+	height: 30px;
+	line-height: 30px
+}
+
+#atst-transaction-form {
+	float: left;
+}
+
+.atst-dashboad-header {
+	height: 110px;
+}
+
+.atst-new-item-button {
+	height: 28px;
+	line-height: 32px;
+	padding: 0 1px 0 0;
+	margin: 1px 0 0 -4px;
+	color: #0073AA;
+	border-radius: 5px;
+}
+
+/**	Transaction form creation styles	*/
+.atst-new-transaction-fields {
+	margin: 0px !important;
+	float: left;
+}
+
+.atst-new-transaction-fields li {
+	display: inline-block;
+}
+
+.atst-new-transaction-fields li i:dashicons {
+	cursor: pointer;
+}
+
+.atst-field-icon {
+	box-sizing: border-box;
+	height: 27px;
+	line-height: 27px;
+	border-top: 1px solid #DDD;
+	border-left: 1px solid #DDD;
+	border-bottom: 1px solid #DDD;
+	background-color: #FFF;
+	padding: 0 23px 0 3px;
+}
+
+.atst-date-field-icon {
+	margin: 1px -5px 0 0;
+}
+
+.atst-amount-field-icon {
+	box-sizing: border-box;
+	margin: 1px 0 0 -8px;
+	font-weight: bold;
+	font-size: 20px;
+	padding: 0 3px;
+}
+
+.atst-date-field {
+	width: 90px;
+}
+
+.atst-amount-field {
+	width: 60px;
+}
+
+#atst-transaction-form button {
+	float: left;
+	height: 26px;
+	margin: 2px 0 0 10px;
+}
+
+#atst-transaction-form fieldset {
+	border: 1px dashed #CCC;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding: 5px 20px;
+}
+
+#atst-transaction-form select {
+	vertical-align: initial;
+}
