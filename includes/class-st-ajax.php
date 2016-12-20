@@ -38,7 +38,7 @@ class Spending_Tracker_Ajax {
 			$new_transaction = st_insert_transaction( wp_unslash( $_POST['atst-transaction'] ) ); // Input var okay!
 		}
 
-		wp_die(); // Wordpress recommendation when using ajax request!
+		wp_die( wp_json_encode( $new_transaction ) ); // Wordpress recommendation when using ajax request!
 	}
 
 }

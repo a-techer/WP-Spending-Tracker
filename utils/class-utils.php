@@ -22,16 +22,31 @@ if ( ! class_exists( 'AT_Utils' ) ) {
 	class AT_Utils {
 
 		/**
+		 * Path to utils
+		 *
+		 * @var string
+		 */
+		protected $utils_path = null;
+
+		/**
+		 * The name of directory containing the current plugin in order to allow final user to modify templates
+		 *
+		 * @var string
+		 */
+		protected static $current_plugin_dir = null;
+
+		/**
 		 *	Instanciate Utils
 		 */
 		public function __construct() {
-			$utils_path = str_replace( '\\', '/', plugin_dir_path( __FILE__ ) );
+			$this->utils_path = str_replace( '\\', '/', plugin_dir_path( __FILE__ ) );
 
-			require_once( $utils_path . 'class-datas-utils.php' );
-			require_once( $utils_path . 'class-posts-model.php' );
-			require_once( $utils_path . 'class-posts.php' );
-			require_once( $utils_path . 'class-comments-model.php' );
-			require_once( $utils_path . 'class-comments.php' );
+			require_once( $this->utils_path . 'class-datas-utils.php' );
+			require_once( $this->utils_path . 'class-models-utils.php' );
+			require_once( $this->utils_path . 'class-posts-model.php' );
+			require_once( $this->utils_path . 'class-posts.php' );
+			require_once( $this->utils_path . 'class-comments-model.php' );
+			require_once( $this->utils_path . 'class-comments.php' );
 		}
 
 		/**
@@ -153,7 +168,26 @@ if ( ! class_exists( 'AT_Utils' ) ) {
 
 			return $current_user_id;
 		}
+
+		/**
+		 * Set the plugin dirname in order to allow template personnalisation
+		 *
+		 * @param string $plugin_dirname The plugin directory name for template personnalisation.
+		 */
+		public static function set_current_plugin_dir( $plugin_dirname ) {
+			self::$current_plugin_dir = $plugin_dirname;
+		}
+
+		/**
+		 * Set the plugin dirname in order to allow template personnalisation
+		 *
+		 * @return string The plugin directory name setted by developper for template personnalisation
+		 */
+		public static function get_current_plugin_dir() {
+			return self::$current_plugin_dir;
+		}
+
 	}
 
-	new AT_Utils();
+	$at_utils = new AT_Utils();
 }

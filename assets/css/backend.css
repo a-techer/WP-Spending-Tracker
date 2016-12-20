@@ -4,6 +4,9 @@
 	display: table;
 	content: "";
 }
+.atst-summary-panel div {
+	box-sizing: border-box;
+}
 
 /**	Dashboard layout and styles	*/
 .atst-dashboard-icon {
@@ -12,36 +15,99 @@
 	height: 30px;
 	line-height: 30px
 }
-
-#atst-transaction-form {
-	float: left;
-}
-
-.atst-dashboad-header {
-	height: 110px;
-}
-
-.atst-new-item-button {
+.atst-new-post-item-button {
 	height: 28px;
 	line-height: 32px;
 	padding: 0 1px 0 0;
 	margin: 1px 0 0 -4px;
 	color: #0073AA;
 	border-radius: 5px;
+	cursor: pointer;
+}
+.atst-new-post-item-input {
+	width: 90%;
+}
+
+/** General alerts */
+.atst-alert {
+	text-align: center;
+	border: 1px solid;
+	border-radius: 5px;
+	height: 30px;
+	line-height: 25px;
+}
+.atst-alert-warning {
+	border-color: yellow;
+	background-color: lightyellow;
+}
+.atst-alert-error {
+	border-color: red;
+	background-color: red;
+}
+.atst-alert-success {
+	border-color: green;
+	background-color: lightgreen;
+}
+
+/** Dashboard alert styles */
+#atst-alert {
+	width: 70%;
+	height: 30px;
+	line-height: 30px;
+	margin: 0 auto;
 }
 
 /**	Transaction form creation styles	*/
 .atst-new-transaction-fields {
 	margin: 0px !important;
-	float: left;
 }
-
-.atst-new-transaction-fields li {
+.atst-new-transaction-fields li.atst-transaction-field-line { }
+.atst-new-transaction-fields li.atst-transaction-field-line.atst-transaction-field-date{
 	display: inline-block;
+	width: 60%;
 }
-
-.atst-new-transaction-fields li i:dashicons {
+.atst-new-transaction-fields li.atst-transaction-field-line.atst-transaction-field-amount {
+	display: inline-block;
+	width: 35%;
+}
+.atst-new-transaction-fields li.atst-transaction-field-line.atst-transaction-field-recurrent > label {
+	display: block;
+	margin: 0 auto;
+	width: 76%;
+}
+.atst-new-transaction-fields li.atst-transaction-type-line {
+	width: 100%;
 	cursor: pointer;
+}
+.atst-new-transaction-fields li.atst-transaction-type-line div {
+	width: 50%;
+	border: 1px solid;
+	float: left;
+	height: 25px;
+	line-height: 21px;
+	text-align: center;
+}
+.atst-new-transaction-fields li.atst-transaction-type-line div[data-type=expense] {
+	color: red;
+	border-color: red;
+}
+.atst-new-transaction-fields li.atst-transaction-type-line div[data-type=expense].atst-transaction-current-type {
+	color: white;
+	background-color: red;
+}
+.atst-new-transaction-fields li.atst-transaction-type-line div[data-type=income] {
+	color: green;
+	border-color: green;
+}
+.atst-new-transaction-fields li.atst-transaction-type-line div[data-type=income].atst-transaction-current-type {
+	color: white;
+	background-color: green;
+}
+.atst-transaction-amount-expense, .atst-transaction-amount-expense input {
+	color: red;
+}
+.atst-transaction-amount-income, .atst-transaction-amount-income input {
+	color: green;
 }
 
 .atst-field-icon {
@@ -54,11 +120,15 @@
 	background-color: #FFF;
 	padding: 0 23px 0 3px;
 }
-
+.atst-date-field {
+	width: 90px;
+}
 .atst-date-field-icon {
 	margin: 1px -5px 0 0;
 }
-
+.atst-amount-field {
+	width: 60px;
+}y
 .atst-amount-field-icon {
 	box-sizing: border-box;
 	margin: 1px 0 0 -8px;
@@ -66,29 +136,35 @@
 	font-size: 20px;
 	padding: 0 3px;
 }
-
-.atst-date-field {
-	width: 90px;
-}
-
-.atst-amount-field {
-	width: 60px;
-}
-
 #atst-transaction-form button {
-	float: left;
 	height: 26px;
 	margin: 2px 0 0 10px;
 }
-
-#atst-transaction-form fieldset {
-	border: 1px dashed #CCC;
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
-	padding: 5px 20px;
-}
-
 #atst-transaction-form select {
 	vertical-align: initial;
+	width: 90%;
+}
+
+.atst-main-panel #atst-normal-sortables:after {
+	clear: both;
+	display: table;
+	content: "";
+}
+.atst-main-panel #atst-normal-sortables {
+	width: 100%;
+}
+.atst-summary-panel div.postbox > button.handlediv {
+	display: none;
+}
+.atst-summary-panel div.postbox > h2.hndle {
+	cursor: auto;
+}
+.atst-summary-panel div.postbox {
+	box-sizing: border-box;
+	width: 38%;
+	margin: 0 5px 0 0;
+	float: left;
+}
+.atst-summary-panel div.postbox:first-child {
+	width: 20%;
 }

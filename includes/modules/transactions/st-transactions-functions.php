@@ -30,7 +30,10 @@ function st_insert_transaction( $transaction_args ) {
 	$new_transaction = Spending_Tracker_Transactions::instance()->post( $transaction_args );
 	if ( false === $new_transaction['status'] ) {
 		$status = $new_transaction['status'];
-		$message = $new_transaction['errors'];
+		$message = $new_transaction['output'];
+		$element = null;
+	} else {
+		$element = $new_transaction['object'];
 	}
 
 	/** Perform some action after saving transaction into database */
@@ -40,6 +43,6 @@ function st_insert_transaction( $transaction_args ) {
 	return array(
 		'status'	=> $status,
 		'message'	=> $message,
-		'element'	=> $new_transaction,
+		'element'	=> $element,
 	);
 }

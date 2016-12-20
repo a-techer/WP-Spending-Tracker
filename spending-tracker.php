@@ -11,15 +11,12 @@
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  *
  * Text Domain: spending_tracker
- * Domain Path: /assets/languages
+ * Domain Path: /i18n/languages
  *
  * @author Alexandre Techer <me@alexandretecher.fr>
  * @since 1.0
  * @package Spending_Tracker
  */
-
-ini_set("display_errors", true);
-error_reporting(E_ALL);
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -96,7 +93,7 @@ final class Spending_Tracker {
 		$locale = apply_filters( 'plugin_locale', get_locale(), 'spending_tracker' );
 
 		load_textdomain( 'spending_tracker', WP_LANG_DIR . '/spending_tracker/spending_tracker-' . $locale . '.mo' );
-		load_plugin_textdomain( 'spending_tracker', false, SPENDTRACK_DIR . '/assets/languages' );
+		load_plugin_textdomain( 'spending_tracker', false, SPENDTRACK_DIR . '/i18n/languages' );
 	}
 
 	/**
@@ -107,41 +104,44 @@ final class Spending_Tracker {
 		 * Utils declaration
 		 */
 		require_once( SPENDTRACK_PATH . 'utils/class-utils.php' );
+		AT_Utils::set_current_plugin_dir( SPENDTRACK_DIR );
 
 		/**
 		 * Require and Instanciate actions for spending tracker
 		 */
-		require_once( SPENDTRACK_PATH . 'classes/class-st-actions.php' );
+		require_once( SPENDTRACK_PATH . 'includes/class-st-actions.php' );
 		Spending_Tracker_Actions::instance();
 
 		/**
 		 * Require transactions for spending tracker
 		 */
-		require_once( SPENDTRACK_PATH . 'classes/class-st-transactions.php' );
-		require_once( SPENDTRACK_PATH . 'functions/st-transactions-functions.php' );
+		require_once( SPENDTRACK_PATH . 'includes/modules/transactions/class-st-transactions-filters.php' );
+		new Spending_Tracker_Transactions_Filters();
+	 	require_once( SPENDTRACK_PATH . 'includes/modules/transactions/class-st-transactions.php' );
+		require_once( SPENDTRACK_PATH . 'includes/modules/transactions/st-transactions-functions.php' );
 
 		/**
 		 * Require ajax request listener for spending tracker
 		 */
-		require_once( SPENDTRACK_PATH . 'classes/class-st-ajax.php' );
+		require_once( SPENDTRACK_PATH . 'includes/class-st-ajax.php' );
 		new Spending_Tracker_Ajax();
 
 		/**
 		 * Require providers module for speding tracker
 		 */
-		require_once( SPENDTRACK_PATH . 'classes/class-st-providers.php' );
+		require_once( SPENDTRACK_PATH . 'includes/modules/class-st-providers.php' );
 		Spending_Tracker_Providers::instance();
 
 		/**
 		 * Require providers module for speding tracker
 		 */
-		require_once( SPENDTRACK_PATH . 'classes/class-st-projects.php' );
+		require_once( SPENDTRACK_PATH . 'includes/modules/class-st-projects.php' );
 		Spending_Tracker_Projects::instance();
 
 		/**
 		 * Require providers module for speding tracker
 		 */
-		require_once( SPENDTRACK_PATH . 'classes/class-st-filters.php' );
+		require_once( SPENDTRACK_PATH . 'includes/class-st-filters.php' );
 		new Spending_Tracker_Filters();
 	}
 

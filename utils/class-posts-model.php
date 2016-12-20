@@ -20,7 +20,7 @@ if ( ! class_exists( 'AT_Posts_Model' ) ) {
 	 * @author Alexandre Techer <me@alexandretecher.fr>
 	 * @since 1.0
 	 */
-	class AT_Posts_Model {
+	class AT_Posts_Model extends AT_Models_Utils {
 
 		/**
 		 * Define a post basic model
@@ -51,36 +51,17 @@ if ( ! class_exists( 'AT_Posts_Model' ) ) {
 				'type'			=> 'string',
 				'db_field'	=> 'post_name',
 			),
+			'type'		=> array(
+				'type'			=> 'string',
+				'db_field'	=> 'post_type',
+				'default'		=> 'post',
+			),
 		);
-
-		/**
-		 * Define the provider model
-		 *
-		 * @var array
-		 */
-		protected $model = array();
 
 		/**
 		 * Spending tracker main initialisation
 		 */
 		public function __construct() { }
-
-		/**
-		 * Get and return the basic model for the current element.
-		 * Which is a basic element from wordpress database
-		 *
-		 * @return array The basic model of comments into wordpress
-		 */
-		public function get_basic_model() {
-			return $this->basic_model;
-		}
-
-		/**
-		 * Get and return the model for the current element.
-		 */
-		public function get_model() {
-			return $this->model;
-		}
 
 	}
 

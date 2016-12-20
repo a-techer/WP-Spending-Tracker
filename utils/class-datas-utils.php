@@ -42,29 +42,56 @@ if ( ! class_exists( 'AT_Datas_Utils' ) ) {
 				'datas_are_valid'	=> true,
 				'errors'					=> array(),
 				'datas'						=> array(),
+				'metas'						=> array(),
 			);
 
 			/** Allows to anybody to alter datas before checking the validity regarding the model definition */
 			$datas = apply_filters( "atst_filter_validate_data_{$element_type}", $datas );
 
+			/** Do treatment on element metas before treating datas of main model */
+			if ( ! empty( $datas['options'] ) ) {
+				$valid_datas = wp_parse_args( $this->read_model_and_build_datas( $model['options'], $datas['options'], 'metas' ), $valid_datas );
+				unset( $model['options'] );
+			}
+
 			/** If there are datas sended by final user start validation and formatting */
-			foreach ( $model as $field_key => $field_definition ) {
+			$valid_datas = wp_parse_args( $this->read_model_and_build_datas( $model, $datas ), $valid_datas );
+
+			/** Return datas validated and formated for saving */
+			return $valid_datas;
+		}
+
+		/**
+		 * Read a given model structure, build the final datas or return error due to missing field or bad given type
+		 *
+		 * @param array  $model_definition Datas model defining the current element.
+		 * @param array  $datas Datas sended by the final user.
+		 * @param string $data_key Optinnal The key to use to store returned data. datas|metas.
+		 *
+		 * @return array Datas stored correctly or an error message if there is a missing field or if datas sended by final users are not correctly formed
+		 */
+		function read_model_and_build_datas( $model_definition, $datas, $data_key = 'datas' ) {
+
+			/** Read datas model to build datas to save */
+			foreach ( $model_definition as $field_key => $field_definition ) {
 				/** Check if there is a default value setted into the model definition */
 				if ( array_key_exists( 'default', $field_definition ) ) {
-					$valid_datas['datas'][ $field_definition['db_field'] ] = $field_definition['default'];
+					$valid_datas[ $data_key ][ $field_definition['db_field'] ] = $field_definition['default'];
 				}
+
 				/** Otherwise check if there is a callback function setted into model in order to set the required value */
 				if ( array_key_exists( 'callback', $field_definition ) && method_exists( $this, $field_definition['callback'] ) ) {
-					$valid_datas['datas'][ $field_definition['db_field'] ] = call_user_func( array( $this, $field_definition['callback'] ) );
+					$valid_datas[ $data_key ][ $field_definition['db_field'] ] = call_user_func( array( $this, $field_definition['callback'] ), array( $datas[ $field_key ] ) );
+					unset( $datas[ $field_key ] );
 				}
 
 				/** Finally check if there is a value sended by the final user for the current field */
 				if ( array_key_exists( $field_key, $datas ) ) {
-					$valid_datas['datas'][ $field_definition['db_field'] ] = $datas[ $field_key ];
+					$valid_datas[ $data_key ][ $field_definition['db_field'] ] = $datas[ $field_key ];
 				}
 
 				/** Check if the current field is required */
-				if ( array_key_exists( 'required', $field_definition ) && empty( $valid_datas['datas'][ $field_definition['db_field'] ] ) ) {
+				if ( array_key_exists( 'required', $field_definition ) && ( true === $field_definition['required'] ) && empty( $valid_datas[ $data_key ][ $field_definition['db_field'] ] ) ) {
 					$valid_datas['datas_are_valid'] = false;
 					$valid_datas['errors'][] = array(
 						'field'		=> $field_definition['db_field'],
@@ -73,14 +100,12 @@ if ( ! class_exists( 'AT_Datas_Utils' ) ) {
 				}
 			}
 
-			/** Return datas validated and formated for saving */
 			return $valid_datas;
 		}
 
 		/**
 		 * Return an element builded with its model definition
 		 *
-		 * @method build_model
 		 * @param  array  $model Element model to fit datas with.
 		 * @param  object $datas Datas to fit to model.
 		 *
@@ -100,6 +125,47 @@ if ( ! class_exists( 'AT_Datas_Utils' ) ) {
 			}
 
 			return $builded_datas;
+		}
+
+		/**
+		 * Return an element builded with its model definition
+		 *
+		 * @param  array  $model Element model to fit datas with.
+		 * @param  object $datas Datas to fit to model.
+		 *
+		 * @return array Arguments for the element query
+		 */
+		public function build_query_from_model( $model, $datas ) {
+			$final_args = array();
+
+			if ( ! empty( $datas ) && ! empty( $model ) ) {
+				foreach ( $datas as $field => $value ) {
+					if ( array_key_exists( $field, $model ) && array_key_exists( 'query_field', $model[ $field ] ) ) {
+						$final_args[ $model[ $field ]['query_field'] ] = $value;
+					} elseif ( array_key_exists( $field, $model ) && ( 'options' !== $field ) ) {
+						$final_args[ $field ] = $value;
+					} elseif ( ( 'options' === $field ) && is_array( $value ) ) {
+						foreach ( $value as $meta_key => $meta_value ) {
+							$final_args['meta_query'][] = array( 'key' => $model['options'][ $meta_key ]['db_field'], 'value' => $meta_value );
+						}
+					}
+				}
+			}
+
+			return $final_args;
+		}
+
+		/**
+		 * Format the date before saving into database
+		 *
+		 * @param  array $args An array with the date to format.
+		 *
+		 * @return string The formatted date
+		 */
+		public function date_format( $args ) {
+			$date_to_timestamp = strtotime( str_replace( '/', '-', $args[0] ) );
+
+			return date( 'Y-m-d', $date_to_timestamp );
 		}
 
 	}

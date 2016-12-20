@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @author Alexandre Techer <me@alexandretecher.fr>
  * @since 1.0
  */
-class Spending_Tracker_Providers extends AT_Posts_Utils {
+class Spending_Tracker_Projects extends AT_Posts_Utils {
 
 	/**
 	 * Define the provider model
@@ -39,7 +39,7 @@ class Spending_Tracker_Providers extends AT_Posts_Utils {
 	 *
 	 * @var string
 	 */
-	protected $type = 'st-providers';
+	protected $type = 'st-projects';
 
 	/**
 	 * Initialize component
@@ -47,9 +47,13 @@ class Spending_Tracker_Providers extends AT_Posts_Utils {
 	public function __construct() {
 		/** Define the specific args for providers */
 		$this->post_type_args = array(
-			'description' => __( 'Manage providers for spending tracker', 'spending_tracker' ),
-			'singular'		=> __( 'Provider', 'spending_tracker' ),
-			'plural'			=> __( 'Providers', 'spending_tracker' ),
+			'description' 	=> __( 'Manage providers for spending tracker', 'spending_tracker' ),
+			'singular'			=> __( 'Project', 'spending_tracker' ),
+			'plural'				=> __( 'Projects', 'spending_tracker' ),
+			'show_in_menu'	=> 'spending-tracker-dashboard',
+		);
+		$this->post_type_labels_args = array(
+			'menu_name'	=> __( 'Project', 'spending_tracker' ),
 		);
 
 		/** Call parent common constructor */
@@ -58,7 +62,14 @@ class Spending_Tracker_Providers extends AT_Posts_Utils {
 		/** Declare and build comments model */
 		$post_model = new AT_Posts_Model();
 		/** Build the final model from current element specific and common model */
-		$this->model = array_merge( $this->model, $post_model->get_basic_model() );
+		$specific_model = array(
+			'type'	=> array(
+				'type'			=> 'string',
+				'db_field'	=> 'post_type',
+				'default'		=> $this->get_type(),
+			),
+		);
+		$this->model = wp_parse_args( wp_parse_args( $specific_model, $this->model ), $post_model->get_basic_model() );
 	}
 
 	/**

@@ -30,6 +30,13 @@ if ( ! class_exists( 'AT_Comments_Utils' ) ) {
 		protected $type = 'comment';
 
 		/**
+		 * Define the default key for comments' meta
+		 *
+		 * @var string
+		 */
+		protected $meta = '_at_comment_meta';
+
+		/**
 		 * Spending tracker main initialisation
 		 */
 		public function __construct() { }
@@ -62,10 +69,16 @@ if ( ! class_exists( 'AT_Comments_Utils' ) ) {
 
 			/** In case datas are validated send to the update function */
 			if ( ( null !== $final_args ) && ( true === $final_args['datas_are_valid'] ) ) {
-				$new_comment = wp_new_comment( $final_args['datas'] );
-				if ( false === $new_comment ) {
+				$new_comment = wp_new_comment( $final_args['datas'], true );
+				if ( ( is_wp_error( $new_comment ) ) || ( false === $new_comment ) ) {
 					$comment_creation_result['status'] = false;
+					$comment_creation_result['output'] = $new_comment;
 				} else {
+					/** Save comment metas in case there are metas to save */
+					foreach ( $final_args['metas'] as $meta_key => $meta_value ) {
+						update_comment_meta( $new_comment, $meta_key, $meta_value );
+					}
+
 					$comment_creation_result['object'] = $new_comment;
 				}
 			} elseif ( false === $final_args['datas_are_valid'] ) {
@@ -83,24 +96,25 @@ if ( ! class_exists( 'AT_Comments_Utils' ) ) {
 		 * @param boolean $single Define if the return is only the requested value or all the request.
 		 */
 		public function get( $args = array(), $single = false ) {
-			/** Get posts from database using WordPress WP_Query */
+			/** Get comments from database using WordPress WP_Query */
 			$default_args = array(
-				'post_type' => $this->get_type(),
-				'posts_per_page' => -1,
+				'type'	=> $this->get_type(),
 			);
-			$list_query = new WP_Query( wp_parse_args( $args, $default_args ) );
+			$comment_query_final_args = wp_parse_args( $args, $default_args );
+			$comment_query_args = $this->build_query_from_model( $this->model, $comment_query_final_args );
+			$list_query = new WP_Comment_Query( $comment_query_args );
 
 			/** If $single is set to true and only one result have been found return directly the only result */
-			if ( ( true === $single ) && ( 1 === $list_query->post_count ) ) {
+			if ( ( true === $single ) && ( 1 === count( $list_query->comments ) ) ) {
 				$list_query = $this->build_model( $this->model, $list_query->post );
-			} elseif ( $list_query->have_posts() ) {
-				foreach ( $list_query->posts as $key => $post ) {
-					$list_query->posts[ $key ] = $this->build_model( $this->model, $post );
+			} elseif ( ! empty( $list_query->comments ) ) {
+				foreach ( $list_query->comments as $key => $comment ) {
+					$list_query->comments[ $key ] = $this->build_model( $this->model, $comment );
 				}
 
 				/** Only return the element list if single parameter is set to true */
 				if ( true === $single ) {
-					$list_query = $list_query->posts;
+					$list_query = $list_query->comments;
 				}
 			}
 

@@ -31,14 +31,10 @@ class Spending_Tracker_Actions {
 	 * Spending tracker actions main initialisation
 	 */
 	public function __construct() {
-		/**
-		 * Call wordpress hook for backend styles and scripts definition
-		 */
+		/** Call wordpress hook for backend styles and scripts definition */
 		add_action( 'admin_enqueue_scripts', array( $this, 'backend_assets' ) );
 
-		/**
-		 * Call wordpress hook for adding our own menu in administration
-		 */
+		/** Call wordpress hook for adding our own menu in administration */
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 	}
 
@@ -96,6 +92,15 @@ class Spending_Tracker_Actions {
 	 * Create administration dashboard for spending tracking
 	 */
 	public function display_dashboard() {
+		/** Get current screen in order to attach metaboxes to the right place */
+		$screen = get_current_screen();
+
+		// add_meta_box( $id, $title, $callback, $screen = null, $context = 'advanced', $priority = 'default', $callback_args = null );!
+		add_meta_box( 'atst-dashboard-transaction-form', __( 'New transaction', 'spending_tracker' ), array( Spending_Tracker_Transactions::instance(), 'display_transaction_form' ), $screen, 'atst-normal' );
+		add_meta_box( 'atst-dashboard-transaction-coming', __( 'Coming transaction', 'spending_tracker' ), array( Spending_Tracker_Transactions::instance(), 'display_next_transaction' ), $screen, 'atst-normal' );
+		add_meta_box( 'atst-dashboard-transaction-last', __( 'Last transaction', 'spending_tracker' ), array( Spending_Tracker_Transactions::instance(), 'display_last_transaction' ), $screen, 'atst-normal' );
+
+		/** Call the dashboard display */
 		require_once( AT_Utils::get_template_part( SPENDTRACK_DIR, SPENDTRACK_PATH . 'templates', '', 'dashboard' ) );
 	}
 

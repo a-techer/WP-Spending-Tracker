@@ -23,13 +23,6 @@ if ( ! class_exists( 'AT_Posts_Utils' ) ) {
 	class AT_Posts_Utils extends AT_Datas_Utils {
 
 		/**
-		 * Define a post model
-		 *
-		 * @var array
-		 */
-		protected $model = array();
-
-		/**
 		 * Declare the main type for the current element
 		 *
 		 * @var string
@@ -37,11 +30,25 @@ if ( ! class_exists( 'AT_Posts_Utils' ) ) {
 		protected $type = 'post';
 
 		/**
+		 * Define the default key for posts' meta
+		 *
+		 * @var string
+		 */
+		protected $meta = '_at_post_meta';
+
+		/**
 		 * Define arguments for custom post type
 		 *
 		 * @var array
 		 */
 		protected $post_type_args = array();
+
+		/**
+		 * Allows to define custom post type labels separatly from main definition
+		 *
+		 * @var array
+		 */
+		protected $post_type_labels_args = array();
 
 		/**
 		 * Spending tracker main initialisation
@@ -67,25 +74,29 @@ if ( ! class_exists( 'AT_Posts_Utils' ) ) {
 		 * @return void
 		 */
 		public function declare_type() {
+
+			/** Define default labels */
+			$labels = wp_parse_args( $this->post_type_labels_args, array(
+				'name'								=> $this->post_type_args['plural'],
+				'singular_name'				=> $this->post_type_args['singular'],
+				'menu_name'						=> $this->post_type_args['plural'],
+				'name_admin_bar'			=> sprintf( __( 'New %s', 'spending_tracker' ), strtolower( $this->post_type_args['singular'] ) ),
+				'add_new'							=> sprintf( __( 'New %s', 'spending_tracker' ), strtolower( $this->post_type_args['singular'] ) ),
+				'add_new_item'				=> sprintf( __( 'Add New %s', 'spending_tracker' ), strtolower( $this->post_type_args['singular'] ) ),
+				'new_item'						=> sprintf( __( 'New %s', 'spending_tracker' ), strtolower( $this->post_type_args['singular'] ) ),
+				'edit_item'						=> sprintf( __( 'Edit %s', 'spending_tracker' ), strtolower( $this->post_type_args['singular'] ) ),
+				'view_item'						=> sprintf( __( 'View %s', 'spending_tracker' ), strtolower( $this->post_type_args['singular'] ) ),
+				'all_items'						=> sprintf( __( 'All %s', 'spending_tracker' ), strtolower( $this->post_type_args['plural'] ) ),
+				'search_items'				=> sprintf( __( 'Search %s', 'spending_tracker' ), strtolower( $this->post_type_args['plural'] ) ),
+				'parent_item_colon'		=> sprintf( __( 'Parent %s:', 'spending_tracker' ), strtolower( $this->post_type_args['plural'] ) ),
+				'not_found'						=> sprintf( __( 'No %s found.', 'spending_tracker' ), strtolower( $this->post_type_args['plural'] ) ),
+				'not_found_in_trash'	=> sprintf( __( 'No %s found in Trash.', 'spending_tracker' ), strtolower( $this->post_type_args['plural'] ) ),
+			) );
+
 		 	/** Define default args for post type */
 			$post_type_default_args = array(
 				'description'					=> sprintf( __( 'Manage %s custom post type', 'spending_tracker' ), $this->get_type() ),
-				'labels'							=> array(
-					'name'								=> $this->post_type_args['plural'],
-					'singular_name'				=> $this->post_type_args['singular'],
-					'menu_name'						=> $this->post_type_args['plural'],
-					'name_admin_bar'			=> sprintf( __( 'New %s', 'spending_tracker' ), strtolower( $this->post_type_args['singular'] ) ),
-					'add_new'							=> sprintf( __( 'New %s', 'spending_tracker' ), strtolower( $this->post_type_args['singular'] ) ),
-					'add_new_item'				=> sprintf( __( 'Add New %s', 'spending_tracker' ), strtolower( $this->post_type_args['singular'] ) ),
-					'new_item'						=> sprintf( __( 'New %s', 'spending_tracker' ), strtolower( $this->post_type_args['singular'] ) ),
-					'edit_item'						=> sprintf( __( 'Edit %s', 'spending_tracker' ), strtolower( $this->post_type_args['singular'] ) ),
-					'view_item'						=> sprintf( __( 'View %s', 'spending_tracker' ), strtolower( $this->post_type_args['singular'] ) ),
-					'all_items'						=> sprintf( __( 'All %s', 'spending_tracker' ), strtolower( $this->post_type_args['plural'] ) ),
-					'search_items'				=> sprintf( __( 'Search %s', 'spending_tracker' ), strtolower( $this->post_type_args['plural'] ) ),
-					'parent_item_colon'		=> sprintf( __( 'Parent %s:', 'spending_tracker' ), strtolower( $this->post_type_args['plural'] ) ),
-					'not_found'						=> sprintf( __( 'No %s found.', 'spending_tracker' ), strtolower( $this->post_type_args['plural'] ) ),
-					'not_found_in_trash'	=> sprintf( __( 'No %s found in Trash.', 'spending_tracker' ), strtolower( $this->post_type_args['plural'] ) ),
-				),
+				'labels'							=> $labels,
 				'supports'						=> array( 'title' ),
 				'public'							=> true,
 				'publicly_queryable'	=> false,
@@ -134,35 +145,45 @@ if ( ! class_exists( 'AT_Posts_Utils' ) ) {
 		/**
 		 * Update a post into database using model definition and wordpress built in function
 		 *
-		 * @method post
-		 *
 		 * @param  array $args Different datas to update for the post.
 		 *
 		 * @return object      The full object definition under defined model shape
 		 */
 		public function post( $args ) {
+			/** Define the creation result output */
+			$post_creation_result = array(
+				'status'	=> true,
+				'object'	=> null,
+				'output'	=> '',
+			);
+
 			/** Check and sanitize datas */
 			$final_args = $this->validate_datas( $this->get_type(), $this->model, $args );
 
 			/** In case datas are validated send to the update function */
 			if ( ( null !== $final_args ) && ( true === $final_args['datas_are_valid'] ) ) {
-				$post_id = wp_insert_post( $final_args );
-				if ( false === $post_id ) {
-					return false;
-				}
+				$new_post = wp_insert_post( $final_args['datas'], true );
+				if ( false === $new_post ) {
+					$post_creation_result['status'] = false;
+					$post_creation_result['output'] = $new_post;
+				} else {
+					/** Save comment metas in case there are metas to save */
+					foreach ( $final_args['metas'] as $meta_key => $meta_value ) {
+						update_comment_meta( $new_post, $meta_key, $meta_value );
+					}
 
-				$post = $this->get( $args, true );
-			} elseif ( false === $final_args['datas_are_valid'] && ! empty( $final_args['datas_are_valid'] ) ) {
-				return false;
+					$post_creation_result['object'] = $new_post;
+				}
+			} elseif ( false === $final_args['datas_are_valid'] ) {
+				$post_creation_result['status'] = false;
+				$post_creation_result['output'] = $final_args['errors'];
 			}
 
-			return $post;
+			return $post_creation_result;
 		}
 
 		/**
 		 * Create a post into database using model definition and wordpress built in function
-		 *
-		 * @method post
 		 *
 		 * @param  array $args The different datas to update for the post.
 		 *
@@ -185,7 +206,7 @@ if ( ! class_exists( 'AT_Posts_Utils' ) ) {
 			$element_post_type_definition = get_post_type_object( $this->get_type() );
 
 			/** Call template for display management */
-			$selector_template_path = AT_Utils::get_template_part( SPENDTRACK_DIR, SPENDTRACK_PATH . 'templates', 'posts', array( $this->get_type(), 'post' ), 'selector', false );
+			$selector_template_path = AT_Utils::get_template_part( AT_Utils::get_current_plugin_dir(), dirname( __FILE__ ) . '/views', 'posts', array( $this->get_type(), 'post' ), 'selector' );
 			ob_start();
 			require( ! empty( $custom_selector_template_path ) ? $custom_selector_template_path : $selector_template_path );
 			$element_selector = ob_get_clean();

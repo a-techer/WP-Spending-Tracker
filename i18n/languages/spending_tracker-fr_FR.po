@@ -1,0 +1,158 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Wordpress Spending Tracker\n"
+"POT-Creation-Date: 2016-12-20 21:21+0100\n"
+"PO-Revision-Date: 2016-12-20 21:22+0100\n"
+"Last-Translator: \n"
+"Language-Team: Alexandre Techer <me@alexandretecher.fr>\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.11\n"
+"X-Poedit-Basepath: ../..\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_x;esc_html_e;esc_html;esc_attr_e;esc_attr\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: includes/class-st-actions.php:70 includes/class-st-actions.php:99
+msgid "New transaction"
+msgstr "Nouvelle transaction"
+
+#: includes/class-st-actions.php:71 templates/transactions/tpl-form.php:55
+msgid "Save"
+msgstr "Enregistrer"
+
+#: includes/class-st-actions.php:72
+msgid "Cancel"
+msgstr "Annuler"
+
+#: includes/class-st-actions.php:87 templates/tpl-dashboard.php:19
+msgid "Spending tracker"
+msgstr "Dépenses"
+
+#: includes/class-st-actions.php:88
+msgid "Spending tracker dashboard"
+msgstr "Tableau de bord des dépenses"
+
+#: includes/class-st-actions.php:88
+msgid "Dashboard"
+msgstr "Dépenses"
+
+#: includes/class-st-actions.php:100
+msgid "Coming transaction"
+msgstr "Transaction à venir"
+
+#: includes/class-st-actions.php:101
+msgid "Last transaction"
+msgstr "Les dernières opérations"
+
+#: includes/modules/class-st-projects.php:50
+#: includes/modules/class-st-providers.php:50
+msgid "Manage providers for spending tracker"
+msgstr "Gestion des fournisseurs pour les dépenses"
+
+#: includes/modules/class-st-projects.php:51
+#: includes/modules/class-st-projects.php:56
+msgid "Project"
+msgstr "Projet"
+
+#: includes/modules/class-st-projects.php:52
+msgid "Projects"
+msgstr "Projets"
+
+#: includes/modules/class-st-providers.php:51
+#: includes/modules/class-st-providers.php:56
+msgid "Provider"
+msgstr "Fournisseur"
+
+#: includes/modules/class-st-providers.php:52
+msgid "Providers"
+msgstr "Fournisseurs"
+
+#: includes/modules/transactions/st-transactions-functions.php:20
+msgid "Transaction have been saved successfully."
+msgstr "La transaction a été enregistrée avec succès."
+
+#: templates/transactions/tpl-form.php:20
+msgid "Expense"
+msgstr "Dépense"
+
+#: templates/transactions/tpl-form.php:21
+msgid "Income"
+msgstr "Revenu"
+
+#: templates/transactions/tpl-form.php:34
+msgid "Recurrent transaction"
+msgstr "Transaction récurrente"
+
+#: templates/transactions/tpl-next-list.php:28
+msgid "There are no transactions to display here"
+msgstr "Il n'y a aucune transaction pour le moment"
+
+#: utils/class-datas-utils.php:98
+#, php-format
+msgid "Field %s is missing. Please fill it and renew your request"
+msgstr ""
+"Le champs %s est manquant. Merci de le renseigner et de renouveler votre "
+"demande"
+
+#: utils/class-posts.php:83 utils/class-posts.php:84 utils/class-posts.php:86
+#, php-format
+msgid "New %s"
+msgstr "Créer %s"
+
+#: utils/class-posts.php:85
+#, php-format
+msgid "Add New %s"
+msgstr "Ajouter %s"
+
+#: utils/class-posts.php:87
+#, php-format
+msgid "Edit %s"
+msgstr "Editer %s"
+
+#: utils/class-posts.php:88
+#, php-format
+msgid "View %s"
+msgstr "Voir %s"
+
+#: utils/class-posts.php:89
+#, php-format
+msgid "All %s"
+msgstr "%s"
+
+#: utils/class-posts.php:90
+#, php-format
+msgid "Search %s"
+msgstr "Rechercher dans %s"
+
+#: utils/class-posts.php:91
+#, php-format
+msgid "Parent %s:"
+msgstr "%s parent:"
+
+#: utils/class-posts.php:92
+#, php-format
+msgid "No %s found."
+msgstr "Aucun %s trouvé."
+
+#: utils/class-posts.php:93
+#, php-format
+msgid "No %s found in Trash."
+msgstr "Aucun %s trouvé dans la poubelle."
+
+#: utils/class-posts.php:98
+#, php-format
+msgid "Manage %s custom post type"
+msgstr "Gérer le type personnalisé pour %s"
+
+#: utils/views/posts/tpl-post-selector.php:28
+msgid " hidden"
+msgstr " hidden"
+
+#: utils/views/posts/tpl-post-selector.php:30
+#, php-format
+msgid "New %s name"
+msgstr "Nouveau %s"

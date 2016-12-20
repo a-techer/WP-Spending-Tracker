@@ -15,12 +15,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! class_exists( 'AT_Comments_Model' ) ) {
 
 	/**
-	 * Class of main components for spending tracker
+	 * Class for comment model main definition
 	 *
 	 * @author Alexandre Techer <me@alexandretecher.fr>
 	 * @since 1.0
 	 */
-	class AT_Comments_Model {
+	class AT_Comments_Model extends AT_Models_Utils {
 
 		/**
 		 * Define a comment basic model
@@ -28,6 +28,11 @@ if ( ! class_exists( 'AT_Comments_Model' ) ) {
 		 * @var array
 		 */
 		protected $basic_model = array(
+			'id'	=> array(
+				'type'		=> 'integer',
+				'db_field'	=> 'comment_ID',
+				'default'	=> 0,
+			),
 			'status'	=> array(
 				'type'		=> 'integer',
 				'db_field'	=> 'comment_approved',
@@ -58,7 +63,7 @@ if ( ! class_exists( 'AT_Comments_Model' ) ) {
 			'parent_id'	=> array(
 				'type'		=> 'integer',
 				'db_field'	=> 'comment_parent',
-				'required'	=> true,
+				'required'	=> false,
 				'default'	=> 0,
 			),
 			'post_id'	=> array(
@@ -85,26 +90,9 @@ if ( ! class_exists( 'AT_Comments_Model' ) ) {
 		);
 
 		/**
-		 * Spending tracker main initialisation
+		 * Comment model main definition instanciation
 		 */
 		public function __construct() {}
-
-		/**
-		 * Get and return the basic model for the current element.
-		 * Which is a basic element from wordpress database
-		 *
-		 * @return array The basic model of comments into wordpress
-		 */
-		public function get_basic_model() {
-			return $this->basic_model;
-		}
-
-		/**
-		 * Get and return the model for the current element.
-		 */
-		public function get_model() {
-			return $this->model;
-		}
 
 	}
 

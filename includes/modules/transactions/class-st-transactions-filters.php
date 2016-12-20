@@ -1,10 +1,11 @@
 <?php
 /**
- * Manage all filters for spending tracker module
+ * Manage filter for transaction
  *
  * @author Alexandre Techer <me@alexandretecher.fr>
  * @since 1.0
  * @package Spending_tracker
+ * @subpackage Transactions
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -12,12 +13,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Manage all filters for spending tracker module
+ * Manage filter for transaction
  *
  * @author Alexandre Techer <me@alexandretecher.fr>
  * @since 1.0
  */
-class Spending_Tracker_Filters {
+class Spending_Tracker_Transactions_Filters {
 
 	/**
 	 * Instanciate spending tracker filters
@@ -41,14 +42,14 @@ class Spending_Tracker_Filters {
 			'class' => '',
 			'html' => Spending_Tracker_Providers::instance()->display_element_selector(),
 		);
-		$default_content [] = $element_custom_display;
+		$default_content[] = $element_custom_display;
 
 		/** Add field for project selection in transaction form */
 		$element_custom_display = array(
 			'class' => '',
 			'html' => Spending_Tracker_Projects::instance()->display_element_selector(),
 		);
-		$default_content [] = $element_custom_display;
+		$default_content[] = $element_custom_display;
 
 		/** Return all fields to add */
 		return $default_content;
@@ -63,15 +64,20 @@ class Spending_Tracker_Filters {
 	 */
 	public function transaction_args_filter( $transaction_args ) {
 		/** Manage provider datas */
-		$transaction_provider = $transaction_args[ Spending_Tracker_Providers::instance()->get_type() ];
-		unset( $transaction_args[ Spending_Tracker_Providers::instance()->get_type() ] );
-		if ( empty( (int) $transaction_provider ) ) {
-			$provider_args['name'] = $transaction_provider;
-			$provider = Spending_Tracker_Providers::instance()->post( $provider_args );
-		} else {
-			$provider_args['id'] = $transaction_provider;
+		$provider = null;
+		if ( ! empty( $transaction_args[ Spending_Tracker_Providers::instance()->get_type() . '-new' ] ) ) {
+			$provider_args['name'] = $transaction_args[ Spending_Tracker_Providers::instance()->get_type() . '-new' ];
+			$provider_save_result = Spending_Tracker_Providers::instance()->post( $provider_args );
+			if ( ! empty( $provider_save_result ) && ! empty( $provider_save_result['status'] ) && ! empty( $provider_save_result['object'] ) ) {
+				$provider = Spending_Tracker_Providers::instance()->get( array( 'p' => $provider_save_result['object'] ), true );
+			}
+		} elseif ( ! empty( $transaction_args[ Spending_Tracker_Providers::instance()->get_type() ] ) ) {
+			$provider_args['p'] = $transaction_args[ Spending_Tracker_Providers::instance()->get_type() ];
 			$provider = Spending_Tracker_Providers::instance()->get( $provider_args, true );
 		}
+		unset( $transaction_args[ Spending_Tracker_Providers::instance()->get_type() . '-new' ] );
+		unset( $transaction_args[ Spending_Tracker_Providers::instance()->get_type() ] );
+
 		if ( null !== $provider ) {
 			$transaction_args['user_name'] = $provider->name;
 			$transaction_args['user_url'] = $provider->slug;
@@ -79,19 +85,21 @@ class Spending_Tracker_Filters {
 		}
 
 		/** Manage project datas */
-		$transaction_project = $transaction_args[ Spending_Tracker_Projects::instance()->get_type() ];
-		unset( $transaction_args[ Spending_Tracker_Projects::instance()->get_type() ] );
-		if ( empty( (int) $transaction_project ) ) {
-			$project_args['name'] = $transaction_project;
-			$project = Spending_Tracker_Projects::instance()->post( $project_args );
-		} else {
-			$project_args['id'] = $transaction_project;
-			$project = Spending_Tracker_Projects::instance()->get( $project_args, true );
+		$project_id = null;
+		if ( ! empty( $transaction_args[ Spending_Tracker_Projects::instance()->get_type() . '-new' ] ) ) {
+			$provider_args['name'] = $transaction_args[ Spending_Tracker_Projects::instance()->get_type() . '-new' ];
+			$project_save_result = Spending_Tracker_Projects::instance()->post( $provider_args );
+			if ( ! empty( $project_save_result ) && ! empty( $project_save_result['status'] ) && ! empty( $project_save_result['object'] ) ) {
+				$project_id = $project_save_result['object'];
+			}
+		} elseif ( ! empty( $transaction_args[ Spending_Tracker_Projects::instance()->get_type() ] ) ) {
+			$project_id = $transaction_args[ Spending_Tracker_Projects::instance()->get_type() ];
 		}
-		if ( null !== $project ) {
-			$transaction_args['user_name'] = $project->name;
-			$transaction_args['user_url'] = $project->slug;
-			$transaction_args['user_email'] = $project->slug;
+		unset( $transaction_args[ Spending_Tracker_Projects::instance()->get_type() . '-new' ] );
+		unset( $transaction_args[ Spending_Tracker_Projects::instance()->get_type() ] );
+
+		if ( null !== $project_id ) {
+			$transaction_args['post_id'] = $project_id;
 		}
 
 		/** Return transaction args after having filter necessary element */
