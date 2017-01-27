@@ -76,8 +76,9 @@ class Spending_Tracker_Actions {
 		/**
 		 * Styles
 		 */
+		// wp_enqueue_style( 'atst-jquery-datepicker-css', SPENDTRACK_URL . 'assets/css/jquery-ui.min.css', array(), Spending_Tracker::instance()->version );
 		wp_enqueue_style( 'atst-backend-css', SPENDTRACK_URL . 'assets/css/backend.css', array( 'wp-jquery-ui-dialog' ), Spending_Tracker::instance()->version );
-		wp_enqueue_style( 'jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css' );
+		// wp_enqueue_style( 'jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css' );
 	}
 
 	/**
@@ -101,7 +102,7 @@ class Spending_Tracker_Actions {
 		add_meta_box( 'atst-dashboard-transaction-last', __( 'Last transaction', 'spending_tracker' ), array( Spending_Tracker_Transactions::instance(), 'display_last_transaction' ), $screen, 'atst-normal' );
 
 		/** Call the dashboard display */
-		require_once( AT_Utils::get_template_part( SPENDTRACK_DIR, SPENDTRACK_PATH . 'templates', '', 'dashboard' ) );
+		AT_Utils::get_template_part( SPENDTRACK_DIR, SPENDTRACK_PATH . 'templates', '', 'dashboard' );
 	}
 
 }

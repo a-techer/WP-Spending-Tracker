@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @author Alexandre Techer <me@alexandretecher.fr>
  * @since 1.0
  */
-class Spending_Tracker_Transactions_Filters {
+class Spending_Tracker_Transactions_Filters  {
 
 	/**
 	 * Instanciate spending tracker filters
@@ -29,6 +29,25 @@ class Spending_Tracker_Transactions_Filters {
 
 		/** Filter spending transaction save for adding extra datas */
 		add_filter( 'atst_insert_transaction_args', array( $this, 'transaction_args_filter' ) );
+
+		add_filter( 'rest_pre_insert_comment', array( $this, 'pre_insert_comment' ), 10, 2 );
+	}
+
+	/**
+	 * [pre_insert_comment description]
+	 *
+	 * @param  [type] $prepared_comment [description]
+	 * @param  [type] $request          [description]
+	 *
+	 * @return [type]                   [description]
+	 */
+	public function pre_insert_comment( $prepared_comment, $request ) {
+		if ( Spending_Tracker_Transactions::instance()->get_type() === $request['comment_type'] ) {
+			$prepared_comment['comment_type'] = $request['comment_type'];
+			$prepared_comment['comment_approved'] = 97431;
+		}
+
+		return $prepared_comment;
 	}
 
 	/**

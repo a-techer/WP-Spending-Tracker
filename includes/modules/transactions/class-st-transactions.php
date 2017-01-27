@@ -94,7 +94,7 @@ class Spending_Tracker_Transactions extends AT_Comments_Utils {
 	 * Display the form allowing to create/edit a transaction
 	 */
 	public function display_transaction_form() {
-		require_once( AT_Utils::get_template_part( SPENDTRACK_DIR, SPENDTRACK_PATH . 'templates', 'transactions', 'form' ) );
+		AT_Utils::get_template_part( SPENDTRACK_DIR, SPENDTRACK_PATH . 'templates', 'transactions', 'form' );
 	}
 
 	/**
@@ -115,7 +115,7 @@ class Spending_Tracker_Transactions extends AT_Comments_Utils {
 			$transactions = $transactions_query->comments;
 		}
 
-		require( AT_Utils::get_template_part( SPENDTRACK_DIR, SPENDTRACK_PATH . 'templates', 'transactions', 'next', 'list' ) );
+		AT_Utils::get_template_part( SPENDTRACK_DIR, SPENDTRACK_PATH . 'templates', 'transactions', 'next', 'list', false );
 	}
 
 	/**
@@ -133,7 +133,7 @@ class Spending_Tracker_Transactions extends AT_Comments_Utils {
 			$transactions = $transactions_query->comments;
 		}
 
-		require( AT_Utils::get_template_part( SPENDTRACK_DIR, SPENDTRACK_PATH . 'templates', 'transactions', 'next', 'list' ) );
+		AT_Utils::get_template_part( SPENDTRACK_DIR, SPENDTRACK_PATH . 'templates', 'transactions', 'next', 'list', false );
 	}
 
 	/**

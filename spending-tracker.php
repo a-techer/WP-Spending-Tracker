@@ -103,8 +103,10 @@ final class Spending_Tracker {
 		/**
 		 * Utils declaration
 		 */
-		require_once( SPENDTRACK_PATH . 'utils/class-utils.php' );
-		AT_Utils::set_current_plugin_dir( SPENDTRACK_DIR );
+		// require_once( SPENDTRACK_PATH . 'utils/class-utils.php' );
+		if ( class_exists( 'AT_Utils' ) ) {
+			AT_Utils::set_current_plugin_dir( SPENDTRACK_DIR );
+		}
 
 		/**
 		 * Require and Instanciate actions for spending tracker
@@ -129,17 +131,17 @@ final class Spending_Tracker {
 		/**
 		 * Require providers module for speding tracker
 		 */
-		require_once( SPENDTRACK_PATH . 'includes/modules/class-st-providers.php' );
+		require_once( SPENDTRACK_PATH . 'includes/modules/class-stProviders.php' );
 		Spending_Tracker_Providers::instance();
 
 		/**
-		 * Require providers module for speding tracker
+		 * Require projects module for speding tracker
 		 */
-		require_once( SPENDTRACK_PATH . 'includes/modules/class-st-projects.php' );
+		require_once( SPENDTRACK_PATH . 'includes/modules/class-stProjects.php' );
 		Spending_Tracker_Projects::instance();
 
 		/**
-		 * Require providers module for speding tracker
+		 * Declare filters
 		 */
 		require_once( SPENDTRACK_PATH . 'includes/class-st-filters.php' );
 		new Spending_Tracker_Filters();

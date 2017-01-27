@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @author Alexandre Techer <me@alexandretecher.fr>
  * @since 1.0
  */
-class Spending_Tracker_Projects extends AT_Posts_Utils {
+class Spending_Tracker_Providers extends AT_Posts_Utils {
 
 	/**
 	 * Define the provider model
@@ -39,7 +39,7 @@ class Spending_Tracker_Projects extends AT_Posts_Utils {
 	 *
 	 * @var string
 	 */
-	protected $type = 'st-projects';
+	protected $type = 'stProviders';
 
 	/**
 	 * Initialize component
@@ -48,12 +48,12 @@ class Spending_Tracker_Projects extends AT_Posts_Utils {
 		/** Define the specific args for providers */
 		$this->post_type_args = array(
 			'description' 	=> __( 'Manage providers for spending tracker', 'spending_tracker' ),
-			'singular'			=> __( 'Project', 'spending_tracker' ),
-			'plural'				=> __( 'Projects', 'spending_tracker' ),
+			'singular'			=> __( 'Provider', 'spending_tracker' ),
+			'plural'				=> __( 'Providers', 'spending_tracker' ),
 			'show_in_menu'	=> 'spending-tracker-dashboard',
 		);
 		$this->post_type_labels_args = array(
-			'menu_name'	=> __( 'Project', 'spending_tracker' ),
+			'menu_name'	=> _x( 'Provider', 'admin menu', 'spending_tracker' ),
 		);
 
 		/** Call parent common constructor */

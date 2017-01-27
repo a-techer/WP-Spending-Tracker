@@ -109,6 +109,15 @@
 .atst-transaction-amount-income, .atst-transaction-amount-income input {
 	color: green;
 }
+.atst-transaction-action-line div {
+	width: 50%;
+	float: left;
+	height: 30px;
+	line-height: 30px;
+}
+.atst-transaction-action-line div:first-child {
+	text-align: center;
+}
 
 .atst-field-icon {
 	box-sizing: border-box;

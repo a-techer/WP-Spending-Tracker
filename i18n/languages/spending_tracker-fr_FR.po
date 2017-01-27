@@ -48,26 +48,26 @@ msgstr "Transaction à venir"
 msgid "Last transaction"
 msgstr "Les dernières opérations"
 
-#: includes/modules/class-st-projects.php:50
-#: includes/modules/class-st-providers.php:50
+#: includes/modules/class-stProjects.php:50
+#: includes/modules/class-stProviders.php:50
 msgid "Manage providers for spending tracker"
 msgstr "Gestion des fournisseurs pour les dépenses"
 
-#: includes/modules/class-st-projects.php:51
-#: includes/modules/class-st-projects.php:56
+#: includes/modules/class-stProjects.php:51
+#: includes/modules/class-stProjects.php:56
 msgid "Project"
 msgstr "Projet"
 
-#: includes/modules/class-st-projects.php:52
+#: includes/modules/class-stProjects.php:52
 msgid "Projects"
 msgstr "Projets"
 
-#: includes/modules/class-st-providers.php:51
-#: includes/modules/class-st-providers.php:56
+#: includes/modules/class-stProviders.php:51
+#: includes/modules/class-stProviders.php:56
 msgid "Provider"
 msgstr "Fournisseur"
 
-#: includes/modules/class-st-providers.php:52
+#: includes/modules/class-stProviders.php:52
 msgid "Providers"
 msgstr "Fournisseurs"
 

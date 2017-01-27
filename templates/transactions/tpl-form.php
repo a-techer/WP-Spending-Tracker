@@ -50,7 +50,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php endforeach; ?>
 <?php endif; ?>
 		<!-- / Extra fields -->
-	</ul>
 
-	<button class="alignright" ><i class="dashicons dashicons-welcome-add-page"></i><?php esc_html_e( 'Save', 'spending_tracker' ); ?></button>
+		<li class="atst-transaction-action-line atst-block" >
+			<div>
+				<a href="#" class="atst-transaction-more-options-opener" ><?php esc_html_e( 'more options', 'spending_tracker' ); ?></a>
+				<div class="" ></div>
+			</div>
+			<div><button class="alignright" ><i class="dashicons dashicons-welcome-add-page"></i><?php esc_html_e( 'Save', 'spending_tracker' ); ?></button></div>
+		</li>
+	</ul>
 </form>
