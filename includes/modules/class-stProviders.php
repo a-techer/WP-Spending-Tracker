@@ -39,7 +39,7 @@ class Spending_Tracker_Providers extends AT_Posts_Utils {
 	 *
 	 * @var string
 	 */
-	protected $type = 'stProviders';
+	protected $type = 'stproviders';
 
 	/**
 	 * Initialize component

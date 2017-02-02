@@ -39,7 +39,7 @@ class Spending_Tracker_Projects extends AT_Posts_Utils {
 	 *
 	 * @var string
 	 */
-	protected $type = 'stProjects';
+	protected $type = 'stprojects';
 
 	/**
 	 * Initialize component

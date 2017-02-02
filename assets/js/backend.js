@@ -2,7 +2,7 @@
 
 jQuery( document ).ready( function(){
 
-	wp.api.loadPromise.done( function() {
+	// wp.api.loadPromise.done( function() {
 
 		// Load an existing post
 		// var post = new wp.api.models.Post( { id: 1 } );
@@ -64,7 +64,7 @@ jQuery( document ).ready( function(){
 		// 	comment_type: 'atst-transaction',
 		// } );
 		// comment.save();
-	});
+	// });
 
 	spending_tracker_scripts.init();
 

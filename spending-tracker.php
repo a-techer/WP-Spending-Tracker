@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Spending tracker
- * Description: Track your spending within your wordpress installation.
+ * Description: Track your spending within your wordpress installation. Allows you to manage your spending whereever you are.
  * You will be able to know where goes your money.
  * Tags: spending, tracker, spending tracker, money,
  * Version: 1.0
@@ -100,10 +100,8 @@ final class Spending_Tracker {
 	 * Initialize spending tracker components
 	 */
 	public function init() {
-		/**
-		 * Utils declaration
-		 */
-		// require_once( SPENDTRACK_PATH . 'utils/class-utils.php' );
+		/** Utils declaration */
+		require_once( SPENDTRACK_PATH . 'utils/class-utils.php' );
 		if ( class_exists( 'AT_Utils' ) ) {
 			AT_Utils::set_current_plugin_dir( SPENDTRACK_DIR );
 		}
@@ -111,8 +109,7 @@ final class Spending_Tracker {
 		/**
 		 * Require and Instanciate actions for spending tracker
 		 */
-		require_once( SPENDTRACK_PATH . 'includes/class-st-actions.php' );
-		Spending_Tracker_Actions::instance();
+		require_once( SPENDTRACK_PATH . 'includes/class-st-init.php' );
 
 		/**
 		 * Require transactions for spending tracker
@@ -149,7 +146,5 @@ final class Spending_Tracker {
 
 }
 
-/**
- * Instanciate main spending tracker
- */
+/** Instanciate main spending tracker */
 Spending_Tracker::instance();
