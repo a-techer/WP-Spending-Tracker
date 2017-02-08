@@ -100,7 +100,7 @@ class Spending_Tracker_Transactions extends AT_Comments_Utils {
 	/**
 	 * Display coming next transaction
 	 */
-	public function display_next_transaction() {
+	public function display_next_transaction( $args ) {
 		/** Get next transactions */
 		$transactions_query = $this->get( array(
 			'status'	=> 97431,
@@ -121,7 +121,7 @@ class Spending_Tracker_Transactions extends AT_Comments_Utils {
 	/**
 	 * Display last transaction list
 	 */
-	public function display_last_transaction() {
+	public function display_last_transaction( $args ) {
 		/** Get next transactions */
 		$transactions_query = $this->get( array(
 			'status'	=> 97431,
@@ -142,8 +142,6 @@ class Spending_Tracker_Transactions extends AT_Comments_Utils {
 	 * @param  integer    $comment_id       Last inserted comment to hook the save.
 	 * @param  int|string $comment_approved The current status for last inserted comment.
 	 * @param  array      $comment_data     Optionnal. An array with the current comment datas.
-	 *
-	 * @return void
 	 */
 	public function action_comment_post( $comment_id, $comment_approved, $comment_data ) {
 		if ( $this->get_type() === get_comment_type( $comment_id ) ) {

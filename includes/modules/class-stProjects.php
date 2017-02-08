@@ -53,7 +53,8 @@ class Spending_Tracker_Projects extends AT_Posts_Utils {
 			'show_in_menu'	=> 'spending-tracker-dashboard',
 		);
 		$this->post_type_labels_args = array(
-			'menu_name'	=> __( 'Project', 'spending_tracker' ),
+			'menu_name'	=> __( 'Projects', 'spending_tracker' ),
+			'all_items'	=> __( 'Projects', 'spending_tracker' ),
 		);
 
 		/** Call parent common constructor */

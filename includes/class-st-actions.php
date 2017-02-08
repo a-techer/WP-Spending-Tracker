@@ -98,8 +98,8 @@ class Spending_Tracker_Actions {
 
 		// add_meta_box( $id, $title, $callback, $screen = null, $context = 'advanced', $priority = 'default', $callback_args = null );!
 		add_meta_box( 'atst-dashboard-transaction-form', __( 'New transaction', 'spending_tracker' ), array( Spending_Tracker_Transactions::instance(), 'display_transaction_form' ), $screen, 'atst-normal' );
-		add_meta_box( 'atst-dashboard-transaction-coming', __( 'Coming transaction', 'spending_tracker' ), array( Spending_Tracker_Transactions::instance(), 'display_next_transaction' ), $screen, 'atst-normal' );
-		add_meta_box( 'atst-dashboard-transaction-last', __( 'Last transaction', 'spending_tracker' ), array( Spending_Tracker_Transactions::instance(), 'display_last_transaction' ), $screen, 'atst-normal' );
+		add_meta_box( 'atst-dashboard-transaction-coming', __( 'Coming transaction', 'spending_tracker' ), array( Spending_Tracker_Transactions::instance(), 'display_next_transaction' ), $screen, 'atst-normal', 'default', array( 'transaction_type' => 'next' ) );
+		add_meta_box( 'atst-dashboard-transaction-last', __( 'Last transaction', 'spending_tracker' ), array( Spending_Tracker_Transactions::instance(), 'display_last_transaction' ), $screen, 'atst-normal', 'default', array( 'transaction_type' => 'last' ) );
 
 		/** Call the dashboard display */
 		AT_Utils::get_template_part( SPENDTRACK_DIR, SPENDTRACK_PATH . 'templates', '', 'dashboard' );

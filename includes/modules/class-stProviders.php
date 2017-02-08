@@ -53,7 +53,8 @@ class Spending_Tracker_Providers extends AT_Posts_Utils {
 			'show_in_menu'	=> 'spending-tracker-dashboard',
 		);
 		$this->post_type_labels_args = array(
-			'menu_name'	=> _x( 'Provider', 'admin menu', 'spending_tracker' ),
+			'menu_name'	=> _x( 'Providers', 'admin menu', 'spending_tracker' ),
+			'all_items'	=> _x( 'Providers', 'admin menu', 'spending_tracker' ),
 		);
 
 		/** Call parent common constructor */
