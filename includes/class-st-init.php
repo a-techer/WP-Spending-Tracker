@@ -77,7 +77,7 @@ class Spending_Tracker_Init {
 		add_meta_box( 'atst-dashboard-transaction-last', __( 'Last transaction', 'spending_tracker' ), array( Spending_Tracker_Transactions::instance(), 'display_last_transaction' ), $screen, 'atst-normal' );
 
 		/** Call the dashboard display */
-		require_once( AT_Utils::get_template_path( SPENDTRACK_DIR, SPENDTRACK_PATH . 'templates', '', 'dashboard' ) );
+		require_once( AT_Display_Utils::get_template_path( SPENDTRACK_DIR, SPENDTRACK_PATH . 'templates', '', 'dashboard' ) );
 	}
 
 }

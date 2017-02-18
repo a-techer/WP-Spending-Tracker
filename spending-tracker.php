@@ -100,8 +100,11 @@ final class Spending_Tracker {
 	 * Initialize spending tracker components
 	 */
 	public function init() {
+
 		/** Utils declaration */
-		require_once( SPENDTRACK_PATH . 'utils/class-utils.php' );
+		if ( is_file( SPENDTRACK_PATH . 'utils/class-utils.php' ) && ! class_exists( 'AT_Utils' ) ) {
+			require_once( SPENDTRACK_PATH . 'utils/class-utils.php' );
+		}
 		if ( class_exists( 'AT_Utils' ) ) {
 			AT_Utils::set_current_plugin_dir( SPENDTRACK_DIR );
 		}
