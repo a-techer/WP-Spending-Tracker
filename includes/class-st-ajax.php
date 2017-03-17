@@ -34,8 +34,8 @@ class Spending_Tracker_Ajax {
 		/** Check if the current request is allowed */
 		check_ajax_referer( 'atst_save_transaction' );
 
-		if ( ! empty( $_POST ) && ! empty( $_POST['atst-transaction'] ) ) { // Input var okay!
-			$new_transaction = st_insert_transaction( wp_unslash( $_POST['atst-transaction'] ) ); // Input var okay!
+		if ( ! empty( $_POST ) && ! empty( $_POST['atst-transaction'] ) ) {
+			$new_transaction = st_insert_transaction( wp_unslash( $_POST['atst-transaction'] ) );
 		}
 
 		wp_die( wp_json_encode( $new_transaction ) ); // Wordpress recommendation when using ajax request!
