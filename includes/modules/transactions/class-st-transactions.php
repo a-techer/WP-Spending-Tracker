@@ -147,7 +147,7 @@ class Spending_Tracker_Transactions extends AT_Comments_Utils {
 		if ( $this->get_type() === get_comment_type( $comment_id ) ) {
 			wp_update_comment( array(
 				'comment_ID'				=> $comment_id,
-				'comment_approved'	=> 97431,
+				'comment_approved'	=> $this->model['status']['default'],
 			) );
 		}
 	}

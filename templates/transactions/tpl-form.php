@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</li>
 		<li class="atst-transaction-field-line atst-transaction-field-date" >
 			<i class="atst-field-icon atst-date-field-icon dashicons dashicons-calendar-alt"></i>
-			<input type="text" name="atst-transaction[date]" value="<?php echo esc_attr( current_time( 'd/m/Y', 1 ) ); ?>" class="atst-date-field" />
+			<input type="text" name="atst-transaction[date]" value="<?php echo esc_attr( current_time( 'd/m/Y', 0 ) ); ?>" class="atst-date-field" />
 		</li>
 		<li class="atst-transaction-field-line atst-transaction-field-amount atst-transaction-amount-expense" >
 			<input type="text" name="atst-transaction[amount]" value="" required="true" class="atst-amount-field" />
